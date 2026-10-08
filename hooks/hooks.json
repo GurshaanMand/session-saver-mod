@@ -1,0 +1,4 @@
+{
+  "description": "session-saver-mod: one hooks module that wires up every feature",
+  "modules": ["./register.ts"]
+}

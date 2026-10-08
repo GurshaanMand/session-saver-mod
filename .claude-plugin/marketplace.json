@@ -1,0 +1,14 @@
+{
+  "name": "session-saver-mod",
+  "description": "session-saver-mod: a Claude Code mod that helps you spend fewer tokens.",
+  "owner": {
+    "name": "Gurshaan Mand"
+  },
+  "plugins": [
+    {
+      "name": "session-saver-mod",
+      "source": "./",
+      "description": "Spend fewer tokens without getting in your way."
+    }
+  ]
+}

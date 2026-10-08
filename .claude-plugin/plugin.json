@@ -1,0 +1,10 @@
+{
+  "name": "session-saver-mod",
+  "version": "0.1.0",
+  "description": "Spend fewer tokens: cheaper-model commands, context-fill nudges, Sonnet subagents, big-file and repeat-read warnings, per-prompt cost receipts and an idle-cache reminder.",
+  "author": { "name": "Gurshaan Mand" },
+  "repository": "https://github.com/GurshaanMand/session-saver-mod",
+  "license": "MIT",
+  "keywords": ["mod", "tokens", "cost", "context"],
+  "types": "./types/index.d.ts"
+}
