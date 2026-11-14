@@ -13,7 +13,7 @@ export const CONFIG = {
     modelRouter: true, // /cheap and /smart, plus the "short message on Opus" tip
     contextNudge: true, // yellow notice at 60% context, red notice at 85%
     subagentModel: true, // subagents with no model of their own run on Sonnet
-    bigFileWarning: true, // ask before reading a huge file or searching a huge folder
+    bigFileWarning: false, // ask before reading a huge file or searching a huge folder
     repeatReadDetector: true, // dim notice when the same unchanged file is read again and again
     costReceipt: true, // one-line token + cost receipt after each prompt
     idleReminder: true, // warn before re-sending a big, probably-uncached context
@@ -87,8 +87,8 @@ export const CONFIG = {
     // Minutes since Claude's last response before a new message gets the reminder.
     // The prompt cache usually lasts 5 minutes (an hour on some plans).
     idleMinutes: 10,
-    // Only remind when the context holds more than this many tokens.
-    minContextTokens: 100_000,
+    // Only remind when the context holds more than this many tokens (at or under it: never).
+    minContextTokens: 150_000,
     // After you dismiss the reminder, sending again within this many minutes goes straight through.
     resendGraceMinutes: 5,
   },

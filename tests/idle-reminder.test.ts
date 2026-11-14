@@ -31,7 +31,7 @@ test('the reminder text has idle time, context size, cost and the cache note', (
 })
 
 test('no reminder after a short break or with a small context', async ($, on) => {
-  const clock = fakeSession(on, { contextTokens: 50_000 })
+  const clock = fakeSession(on, { contextTokens: 150_000 })
   const sent = sentPrompts(on)
   const asked = answerAsk(on, 'Continue')
 
@@ -39,14 +39,14 @@ test('no reminder after a short break or with a small context', async ($, on) =>
   await clock.advance(3 * MIN)
   await $.prompt.submit({ text: 'next step', origin: COMPOSER, wait: false })
   await claudeResponds($)
-  await clock.advance(30 * MIN) // long break, but only 50K tokens
+  await clock.advance(30 * MIN) // long break, but exactly 150K tokens, the threshold
   await $.prompt.submit({ text: 'and then?', origin: COMPOSER, wait: false })
   expect(asked).toEqual([])
   expect(sent).toEqual(['next step', 'and then?'])
 })
 
 test('after 10+ idle minutes with a big context: asks, and "Continue" sends', async ($, on) => {
-  const clock = fakeSession(on, { contextTokens: 150_000 })
+  const clock = fakeSession(on, { contextTokens: 160_000 })
   const sent = sentPrompts(on)
   const asked = answerAsk(on, 'Continue')
 
@@ -55,12 +55,12 @@ test('after 10+ idle minutes with a big context: asks, and "Continue" sends', as
   const result = await $.prompt.submit({ text: 'go on', origin: COMPOSER, wait: false })
   expect(result.drop).toBeUndefined()
   expect(sent).toEqual(['go on'])
-  expect(asked[0]).toContain('Idle for 12 min with 150K tokens of context')
+  expect(asked[0]).toContain('Idle for 12 min with 160K tokens of context')
   expect(asked[0]).toContain('cache has likely expired')
 })
 
 test('"Compact first" holds the message, puts it back in the box and runs /compact', async ($, on) => {
-  const clock = fakeSession(on, { contextTokens: 150_000 })
+  const clock = fakeSession(on, { contextTokens: 160_000 })
   const sent = sentPrompts(on)
   answerAsk(on, 'Compact first')
   const logs = captureLogs(on)
@@ -87,7 +87,7 @@ test('"Compact first" holds the message, puts it back in the box and runs /compa
 })
 
 test('dismissing holds the message; sending again goes straight through', async ($, on) => {
-  const clock = fakeSession(on, { contextTokens: 150_000 })
+  const clock = fakeSession(on, { contextTokens: 160_000 })
   const sent = sentPrompts(on)
   const asked = answerAsk(on, null)
   on('prompt.fill', () => ({ isFilled: true }))
@@ -105,7 +105,7 @@ test('dismissing holds the message; sending again goes straight through', async 
 })
 
 test('with nobody to ask (claude -p) it logs the reminder and sends', async ($, on) => {
-  const clock = fakeSession(on, { contextTokens: 150_000, surfaces: [] })
+  const clock = fakeSession(on, { contextTokens: 160_000, surfaces: [] })
   const sent = sentPrompts(on)
   const logs = captureLogs(on)
 
